@@ -1,0 +1,203 @@
+/* Reset some default styles */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set a background color and font for the whole page */
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Style the container that holds the content */
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Style the header section */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.title {
+    font-size: 36px;
+    color: #7289DA; /* Discord blue color */
+    margin: 0;
+}
+
+/* Style the links in the TOS section */
+.tos-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.tos-link a {
+    color: #7289DA;
+    text-decoration: none;
+}
+
+.tos-link a:hover {
+    text-decoration: underline;
+}
+
+/* Style the input container */
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.label {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #333;
+}
+
+.input-field {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 60px;
+}
+
+.generate-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #0073e6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.generate-button:hover {
+    background-color: #005bbf;
+}
+
+/* Style the output container */
+.output-container {
+    text-align: left;
+    margin-top: 30px;
+}
+
+/* Style the generated code list */
+.output-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.output-list-item {
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+/* Style the progress bar animation */
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    position: relative;
+}
+
+.progress {
+    height: 100%;
+    width: 0;
+    background-color: #0073e6;
+    border-radius: 10px;
+    animation: progress-animation 10s linear forwards;
+}
+
+@keyframes progress-animation {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/* Style the "Generating..." animation */
+.generating-text {
+    font-size: 24px;
+    margin-top: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: generating-animation 2s infinite alternate;
+}
+
+@keyframes generating-animation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(10px);
+    }
+}
+
+/* Style for the "Copy to Clipboard" button */
+.copy-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #4CAF50; /* Green background color */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.copy-button:hover {
+    background-color: #45a049; /* Darker green color on hover */
+}
+
+/* Style the dropdown for code lists */
+.dropdown {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.dropdown-label {
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #7289DA;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.show {
+    display: block;
+}
+
+/* Add your additional CSS styles here */

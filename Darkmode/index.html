@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Discord Nitro Generator</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="discord-logo.png" alt="Discord Logo" class="logo">
+            <h1 class="title">Discord Nitro Generator</h1>
+        </div>
+        <div class="input-container">
+            <label for="outputCount" class="label">Enter Amount of Codes to be generated:</label>
+            <input type="number" id="outputCount" class="input-field">
+            <button onclick="startGeneration()" class="generate-button">Generate</button>
+        </div>
+        <div id="outputContainer" class="output-container"></div>
+    </div>    
+
+    <script src="script.js"></script>
+</body>
+</html>

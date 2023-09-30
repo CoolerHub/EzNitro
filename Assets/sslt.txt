@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Discord Nitro Generator</title>
+    <style>
+        /* Add your CSS here */
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .title {
+            font-size: 36px;
+            color: #7289DA; /* Discord blue color */
+            margin: 0;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .label {
+            font-size: 20px;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        .input-field {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 60px;
+        }
+
+        .generate-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #0073e6;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .generate-button:hover {
+            background-color: #005bbf;
+        }
+
+        .output-container {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .output-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .output-list-item {
+            font-size: 18px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Add styles for the progress bar animation */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background-color: #0073e6;
+            border-radius: 10px;
+            animation: progress-animation 10s linear forwards;
+        }
+
+        @keyframes progress-animation {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* Add styles for "Generating..." animation */
+        .generating-text {
+            font-size: 24px;
+            margin-top: 20px;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: generating-animation 2s infinite alternate;
+        }
+
+        @keyframes generating-animation {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(10px);
+            }
+        }
+
+        /* Style for the "Copy to Clipboard" button */
+        .copy-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #4CAF50; /* Green background color */
+            color: #fff; /* White text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .copy-button:hover {
+            background-color: #45a049; /* Darker green color on hover */
+        }
+
+        .dropdown {
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .dropdown-label {
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            background-color: #7289DA;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .show {
+            display: block;
+        }
+
+        /* Add your additional CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="discord-logo.png" alt="Discord Logo" class="logo">
+            <h1 class="title">Discord Nitro Generator</h1>
+        </div>
+        <div class="tos-link">
+            <p>Check out our <a href="tos.txt" target="_blank">ToS</a> before using this generator.</p>
+        </div>
+        <div class="tos-link">
+            <p>Check out the <a href="ss.txt" target="_blank">Source Code</a>!</p>
+        </div>
+        <div class="input-container">
+            <label for="outputCount" class="label">Enter Amount of Codes to be generated:</label>
+            <input type="number" id="outputCount" class="input-field">
+            <button onclick="startGeneration()" class="generate-button">Generate</button>
+        </div>
+        <div id="outputContainer" class="output-container"></div>
+    </div>
+
+    <script>
+        // JavaScript code goes here
+        function startGeneration() {
+            const outputCount = parseInt(document.getElementById("outputCount").value, 10);
+            const outputContainer = document.getElementById("outputContainer");
+            outputContainer.innerHTML = "";
+
+            const progressBar = document.createElement("div");
+            progressBar.className = "progress-bar";
+            const progress = document.createElement("div");
+            progress.className = "progress";
+            progressBar.appendChild(progress);
+
+            const generatingText = document.createElement("div");
+            generatingText.className = "generating-text";
+            outputContainer.appendChild(progressBar);
+            outputContainer.appendChild(generatingText);
+
+            const randomDelay = Math.floor(Math.random() * 21) + 10; // Random delay between 10 to 30 seconds
+
+            let animationCycle = 0;
+
+            const animationInterval = setInterval(function () {
+                if (animationCycle === 0) {
+                    generatingText.textContent = "Generating.";
+                    progress.style.width = "20%"; // Sync progress bar with text
+                } else if (animationCycle === 2) {
+                    generatingText.textContent = "Generating..";
+                    progress.style.width = "40%";
+                } else if (animationCycle === 4) {
+                    generatingText.textContent = "Generating...";
+                    progress.style.width = "60%";
+                } else if (animationCycle === 6) {
+                    generatingText.textContent = "Almost there!";
+                    progress.style.width = "80%";
+                } else if (animationCycle === 8) {
+                    generatingText.textContent = "Done!";
+                    clearInterval(animationInterval);
+
+                    setTimeout(function () {
+                        outputContainer.removeChild(progressBar);
+                        outputContainer.removeChild(generatingText);
+                        generateAndDisplay(outputCount, outputContainer);
+                    }, 2000); // 2 seconds delay after "Done!"
+                }
+
+                // Check if the specified random delay is reached
+                if (animationCycle === randomDelay) {
+                    generatingText.textContent = "Generating...";
+                    progress.style.width = "60%"; // Sync progress bar with text
+                }
+
+                // Check if 2 animation cycles are completed (random delay)
+                if (animationCycle === randomDelay + 2) {
+                    clearInterval(animationInterval);
+                }
+
+                animationCycle++;
+            }, 1000); // 1 second interval
+        }
+
+        function generateAndDisplay(outputCount, outputContainer) {
+            let codeCounter = 0;
+            let listCounter = 0;
+            let allCodes = [];
+
+            // Function to generate a random string of specified length
+            function randomString(length) {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    const randomIndex = Math.floor(Math.random() * characters.length);
+                    result += characters.charAt(randomIndex);
+                }
+                return result;
+            }
+
+            // Generate random strings for each group and create the value
+            function generateRandomValue() {
+                const groupA = randomString(4);
+                const groupB = randomString(4);
+                const groupC = randomString(4);
+                const groupD = randomString(4);
+                return `${groupA}-${groupB}-${groupC}-${groupD}`;
+            }
+
+            let currentList = document.createElement("ul");
+            currentList.className = "output-list";
+
+            for (let i = 0; i < outputCount; i++) {
+                const randomValue = generateRandomValue();
+                const outputElement = document.createElement("li");
+                outputElement.textContent = randomValue;
+                outputElement.className = "output-list-item";
+
+                allCodes.push(randomValue);
+
+                currentList.appendChild(outputElement);
+
+                codeCounter++;
+
+                if (codeCounter === 10) {
+                    codeCounter = 0;
+                    listCounter++;
+                    const dropdownLabel = document.createElement("div");
+                    dropdownLabel.className = "dropdown-label";
+                    dropdownLabel.textContent = `Code list ${listCounter}`;
+                    dropdownLabel.addEventListener("click", toggleDropdown);
+
+                    const dropdownContent = document.createElement("ul");
+                    dropdownContent.className = "dropdown-content";
+                    dropdownContent.appendChild(currentList);
+
+                    const copyCodesButton = createCopyCodesButton(allCodes);
+                    const downloadCodesButton = createDownloadCodesButton(allCodes);
+                    dropdownContent.appendChild(copyCodesButton);
+                    dropdownContent.appendChild(downloadCodesButton);
+
+                    const dropdown = document.createElement("div");
+                    dropdown.className = "dropdown";
+                    dropdown.appendChild(dropdownLabel);
+                    dropdown.appendChild(dropdownContent);
+                    outputContainer.appendChild(dropdown);
+
+                    currentList = document.createElement("ul");
+                    currentList.className = "output-list";
+                }
+            }
+
+            if (codeCounter > 0) {
+                const dropdownLabel = document.createElement("div");
+                dropdownLabel.className = "dropdown-label";
+                dropdownLabel.textContent = `Code list ${listCounter}`;
+                dropdownLabel.addEventListener("click", toggleDropdown);
+
+                const dropdownContent = document.createElement("ul");
+                dropdownContent.className = "dropdown-content";
+                dropdownContent.appendChild(currentList);
+
+                const copyCodesButton = createCopyCodesButton(allCodes);
+                const downloadCodesButton = createDownloadCodesButton(allCodes);
+                dropdownContent.appendChild(copyCodesButton);
+                dropdownContent.appendChild(downloadCodesButton);
+
+                const dropdown = document.createElement("div");
+                dropdown.className = "dropdown";
+                dropdown.appendChild(dropdownLabel);
+                dropdown.appendChild(dropdownContent);
+                outputContainer.appendChild(dropdown);
+            }
+
+            listCounter = 0;
+        }
+
+        function toggleDropdown() {
+            this.parentElement.querySelector(".dropdown-content").classList.toggle("show");
+        }
+
+        function copyToClipboard(text) {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+        }
+
+        function createCopyCodesButton(text) {
+            const copyCodesButton = document.createElement("button");
+            copyCodesButton.textContent = "Copy Codes";
+            copyCodesButton.className = "copy-button";
+            copyCodesButton.addEventListener("click", function () {
+                const formattedCodes = text.map(code => `"${code}"`).join(',\n');
+                copyToClipboard(formattedCodes);
+            });
+            return copyCodesButton;
+        }
+
+        function createDownloadCodesButton(text) {
+            const downloadCodesButton = document.createElement("button");
+            downloadCodesButton.textContent = "Download Codes";
+            downloadCodesButton.className = "copy-button";
+            downloadCodesButton.addEventListener("click", function () {
+                const formattedCodes = text.map(code => `"${code}"`).join(',\n');
+                const blob = new Blob([formattedCodes], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'generated_codes.txt';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+            return downloadCodesButton;
+        }
+    </script>
+</body>
+</html>
